@@ -3265,6 +3265,7 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 							if(res_buffer[5])
 							{
 								MOTOR_TIME1=MBCustomMin*60+MBCustomSec;
+						
 							}
 							else
 							{
