@@ -2887,7 +2887,7 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
     		      				sc_up=0;
     		      				clearscreen(0);
 
-											twolines("AVTOKOR","FEED v1.2L");
+											twolines("AVTOKOR","FEED v1.3L");
 											placedchar(46,46,0);
 											placedchar(77,42,0);
 											placedchar(82,50,0);
@@ -3151,7 +3151,7 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 						write_buffer[1]=0x03;						// Та-же функция
 						write_buffer[2]=res_buffer[5]*2;			// Счетчик байт
 						
-						reg_MB2[0]=reg_MB[1];
+						reg_MB2[0]=reg_MB[0];
 						reg_MB2[1]=reg_MB[2];
 						reg_MB2[2]=reg_MB[2];
 						for (i=0; i<res_buffer[5]; i++)				// Значения регистров
