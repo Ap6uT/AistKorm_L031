@@ -493,8 +493,9 @@ const unsigned char auchCRCLo[] =
 
 
 
-uint16_t reg_MB2[2][19];
+
 uint8_t reg_MB[30];
+uint8_t reg_MB2[5];
 
 const uint32_t USART_const [9] = {9600,4800,9600,14400,19200,38400,56000,57600,115200};
 //const uint8_t  TIMER_const [9] = {4,8,4,3,2,2,2,2,2};
@@ -621,9 +622,12 @@ RTC_DateTypeDef RTC_Date1;
 #define MBAdr reg_MB[16]
 #define MBSpeed reg_MB[17]
 
-const uint8_t MaxS[18]={0,0,0,0,0,0,24,60,24,60,24,60,100,60,100,100,247,9};
+#define MBCustomMin reg_MB[18]
+#define MBCustomSec reg_MB[19]
 
+const uint8_t MaxS[20]={0,0,0,0,0,0,24,60,24,60,24,60,100,60,100,100,247,9,100,60};
 
+volatile uint8_t customTest = 0;
 //uint8_t GlobalHr, GlobalMin = 0;
 //uint8_t StartMin, StartHr = 0;
 //uint8_t StopMin, StopHr = 0;
@@ -2842,10 +2846,10 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
     		      		case 0x08:
     		      		{
     		      			if (sc_up)
-    		      		    {
+    		      		  {
     		      				twolines("ВКЛ ТЕСТ","");
     		      				sc_up=0;
-    		      		    }
+    		      		  }
     		      			MOTOR_TIME1=MOTOR_TIME+1;
     		      			break;
     		      		}
@@ -3135,10 +3139,8 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 			{
 				case 0x03:							// Чтение регистров
 				{
-					if ((res_buffer[2]<1) && ((res_buffer[3]+res_buffer[4]*256+res_buffer[5]-1)<18))
+					if ((res_buffer[2]<1) && ((res_buffer[3]+res_buffer[4]*256+res_buffer[5]-1)<20))
 					{
-
-
 						write_buffer[0]=res_buffer[0];					// Адрес устройства
 						write_buffer[1]=0x03;						// Та-же функция
 						write_buffer[2]=res_buffer[5]*2;			// Счетчик байт
@@ -3150,6 +3152,23 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 						}
 
 						snd_cnt=write_buffer[2]+3;			
+					}
+					else if ((res_buffer[2]==1) && ((res_buffer[3]+res_buffer[4]*256+res_buffer[5]-1)<3))
+					{
+						write_buffer[0]=res_buffer[0];					// Адрес устройства
+						write_buffer[1]=0x03;						// Та-же функция
+						write_buffer[2]=res_buffer[5]*2;			// Счетчик байт
+						
+						reg_MB2[0]=reg_MB[0];
+						reg_MB2[1]=reg_MB[2];
+						reg_MB2[2]=reg_MB[2];
+						for (i=0; i<res_buffer[5]; i++)				// Значения регистров
+						{
+							write_buffer[4+(2*i)]=(reg_MB2[res_buffer[3]+i]);		// Младший байт (2-ой)
+							write_buffer[3+(2*i)]=0;//(reg_MB[res_buffer[2]*0x100+res_buffer[3]+i])/256;	// Старший байт (1-ый)
+						}
+
+						snd_cnt=write_buffer[2]+3;		
 					}
 					else
 					{
@@ -3163,7 +3182,7 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 				case 0x06:						//запись регистра
 				{
 						//if ((res_buffer[2]*0x100+res_buffer[3]==1)||(res_buffer[2]*0x100+res_buffer[3]==2))//если возможна запись регистра
-						if ((res_buffer[2]==0)&&(res_buffer[3]>5)&&(res_buffer[3]<18))
+						if ((res_buffer[2]==0)&&(res_buffer[3]>5)&&(res_buffer[3]<20))
 						{
 							if (state != 0x00 || state != 0x18)
 							{
@@ -3248,6 +3267,35 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 							write_buffer[5]=res_buffer[5];
 							snd_cnt=6;
 							sc_up=1;
+							if(res_buffer[5])
+							{
+								MOTOR_TIME1=MOTOR_TIME+1;
+							}
+							else
+							{
+								MOTOR_TIME1=0;
+							}
+							state=0x18;
+						}
+						else if ((res_buffer[2]==1)&&(res_buffer[3]==2)&&(res_buffer[4]==0)&&(res_buffer[5]<2))
+						{
+							write_buffer[0]=res_buffer[0];					// адрес блока
+							write_buffer[1]=0x06;						// та-же функция
+							write_buffer[2]=res_buffer[2];				// те же данные
+							write_buffer[3]=res_buffer[3];
+							write_buffer[4]=res_buffer[4];
+							write_buffer[5]=res_buffer[5];
+							snd_cnt=6;
+							if(res_buffer[5])
+							{
+								MOTOR_TIME1=MBCustomMin*60+MBCustomSec;
+						
+							}
+							else
+							{
+								MOTOR_TIME1=0;
+							}
+							sc_up=1;
 							state=0x18;
 						}
 						else if ((res_buffer[2]==2)&&(res_buffer[3]==0)&&(res_buffer[4]==0)&&(res_buffer[5]==0))
@@ -3262,7 +3310,7 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 							double_but=1;
 							snd_cnt=6;
 							sc_up=1;
-							state=0x18;
+							//state=0x18;
 						}
 						else
 						{
