@@ -3,7 +3,7 @@
 <title>Static Call Graph - [usart_031\usart_031.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image usart_031\usart_031.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Mon Nov 11 13:36:19 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Wed Jun 03 11:54:06 2020
 <BR><P>
 <H3>Maximum Stack Usage =        224 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -960,7 +960,7 @@ Global Symbols
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
 </UL>
 
-<P><STRONG><a name="[18]"></a>USART2_IRQHandler</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, main.o(i.USART2_IRQHandler))
+<P><STRONG><a name="[18]"></a>USART2_IRQHandler</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, main.o(i.USART2_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = USART2_IRQHandler &rArr; HAL_UART_IRQHandler &rArr; HAL_DMA_Abort_IT
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
@@ -1075,7 +1075,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[1a]"></a>main</STRONG> (Thumb, 7034 bytes, Stack size 40 bytes, main.o(i.main))
+<P><STRONG><a name="[1a]"></a>main</STRONG> (Thumb, 7196 bytes, Stack size 40 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = main &rArr; WakeRestart &rArr; scr_time &rArr; placedchar &rArr; WriteData &rArr; Write_Byte &rArr; HAL_SPI_Transmit &rArr; SPI_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
@@ -1290,8 +1290,8 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[82]"></a>MX_TIM22_Init</STRONG> (Thumb, 90 bytes, Stack size 16 bytes, main.o(i.MX_TIM22_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = MX_TIM22_Init &rArr; HAL_TIM_Base_Init &rArr; TIM_Base_SetConfig
+<P><STRONG><a name="[82]"></a>MX_TIM22_Init</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, main.o(i.MX_TIM22_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = MX_TIM22_Init &rArr; HAL_TIM_Base_Init &rArr; TIM_Base_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Init
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_SetPriority
