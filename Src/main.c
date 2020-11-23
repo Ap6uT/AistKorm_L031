@@ -494,8 +494,8 @@ const unsigned char auchCRCLo[] =
 
 
 
-uint8_t reg_MB[30];
-uint8_t reg_MB2[5];
+volatile uint8_t reg_MB[30];
+volatile uint8_t reg_MB2[5];
 
 const uint32_t USART_const [9] = {9600,4800,9600,14400,19200,38400,56000,57600,115200};
 //const uint8_t  TIMER_const [9] = {4,8,4,3,2,2,2,2,2};
@@ -559,6 +559,7 @@ volatile uint8_t sc_up = 1;
 //volatile uint16_t m_timer = 0;
 volatile uint8_t prev_min = 61;
 
+volatile uint8_t additional_wake = 0;
 volatile uint8_t prev_min_for_screen = 61;
 volatile uint8_t prev_sec = 61;
 //volatile uint8_t GlobalSec;
@@ -1630,7 +1631,9 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 				HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
 
 				WakeRestart();
+				additional_wake = 1;
 				flag_FT=1;
+				prev_min_for_screen = 61;
 				if(HAL_RTCEx_BKUPRead(&hrtc,RTC_BKP_DR1)>25)
 				{
 					power=0;
@@ -1730,6 +1733,11 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
     		}
     	}
     	}
+			if (additional_wake)
+			{
+				screen_init();
+				additional_wake = 0;
+			}
 
     	if (!(TIME_CH))
     	{
@@ -1743,7 +1751,15 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 					prev_min_for_screen = GlobalMin;
 				}
     		//GlobalSec=RTC_DateTime.Seconds;
-    	}
+    	} else {
+				if (state != 0x12 && state != 0x22) {
+					TIME_CH=0;
+					RTC_DateTime.Hours = GlobalHr;
+					RTC_DateTime.Minutes = GlobalMin;
+					RTC_DateTime.Seconds = 00;
+					HAL_RTC_SetTime(&hrtc, &RTC_DateTime, RTC_FORMAT_BIN);
+				}
+			}
 
     	if (power&&!VAR_CH&&!TIME_CH)
     	{
@@ -2204,7 +2220,7 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 				if ((VAR_CH)&&(ts_change)) {FLSH_WRT_N=1; VAR_CH=0;power=0;
 			FlashRoyal();
 				}
-				if ((TIME_CH)&&(ts_change))
+				/*if ((TIME_CH)&&(ts_change))
 				{
 					TIME_CH=0;
 					RTC_DateTime.Hours = GlobalHr;
@@ -2213,7 +2229,7 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
 					HAL_RTC_SetTime(&hrtc, &RTC_DateTime, RTC_FORMAT_BIN);
 					power=0;
 					FlashRoyal();
-				}
+				}*/
 				if ((power_ch)&&(ts_change))
 				{
 					NXT_TIME=100;
@@ -3074,14 +3090,14 @@ HAL_NVIC_EnableIRQ(RTC_IRQn);
     		  	  		two_sec=0;
     		  	  		prev_min=61;
     		  	  		prev_sec=61;
-    		  	  		if (TIME_CH)
+    		  	  		/*if (TIME_CH)
     		  	  		{
     		  	  			TIME_CH=0;
     		  	  			RTC_DateTime.Hours = GlobalHr;
     		  	  			RTC_DateTime.Minutes = GlobalMin;
     		  	  			RTC_DateTime.Seconds = 00;
     		  	  			HAL_RTC_SetTime(&hrtc, &RTC_DateTime, RTC_FORMAT_BIN);
-    		  	  		}
+    		  	  		}*/
     		  	  		if (VAR_CH)
     		  	  		{
     		  	  			VAR_CH=0;

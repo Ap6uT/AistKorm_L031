@@ -3,7 +3,7 @@
 <title>Static Call Graph - [usart_031\usart_031.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image usart_031\usart_031.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Thu Nov 12 18:55:54 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sat Nov 21 12:21:32 2020
 <BR><P>
 <H3>Maximum Stack Usage =        224 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -815,8 +815,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l031xx.o(RESET)
 </UL>
-<P><STRONG><a name="[7a]"></a>KormPlacement</STRONG> (Thumb, 226 bytes, Stack size 32 bytes, main.o(i.KormPlacement))
-<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = KormPlacement &rArr; FlashRoyal &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation &rArr; FLASH_SetErrorCode
+<P><STRONG><a name="[7a]"></a>KormPlacement</STRONG> (Thumb, 312 bytes, Stack size 24 bytes, main.o(i.KormPlacement))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = KormPlacement &rArr; FlashRoyal &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation &rArr; FLASH_SetErrorCode
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FlashRoyal
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
@@ -1061,8 +1061,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b0]"></a>errorsGet</STRONG> (Thumb, 112 bytes, Stack size 20 bytes, main.o(i.errorsGet))
-<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = errorsGet
+<P><STRONG><a name="[b0]"></a>errorsGet</STRONG> (Thumb, 122 bytes, Stack size 16 bytes, main.o(i.errorsGet))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = errorsGet
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1075,7 +1075,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[1a]"></a>main</STRONG> (Thumb, 7334 bytes, Stack size 40 bytes, main.o(i.main))
+<P><STRONG><a name="[1a]"></a>main</STRONG> (Thumb, 7228 bytes, Stack size 40 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = main &rArr; WakeRestart &rArr; scr_time &rArr; placedchar &rArr; WriteData &rArr; Write_Byte &rArr; HAL_SPI_Transmit &rArr; SPI_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
